@@ -4,14 +4,14 @@ A small, static Astro storefront starter for WooCommerce's public Store API. Clo
 
 ## Configuration
 
-Set these build-time variables in the deployment environment:
+Set these deployment environment variables:
 
 | Variable | Example | Purpose |
 | --- | --- | --- |
 | `PUBLIC_WORDPRESS_URL` | `https://cms.example.com` | WordPress site and checkout base URL |
 | `PUBLIC_WOOCOMMERCE_STORE_API_URL` | `https://cms.example.com/wp-json/wc/store/v1` | Public WooCommerce Store API base URL |
 
-These are public values embedded in browser code. Never put WooCommerce consumer secrets, payment credentials, or private API keys in `PUBLIC_*` variables.
+The container writes them into a public runtime configuration file when it starts, so you can change backend URLs without rebuilding the Astro site. These values are public. Never put WooCommerce consumer secrets, payment credentials, or private API keys in them.
 
 In WordPress, install and configure WooCommerce, enable the Store API, configure the headless plugin/settings for the storefront origin, and verify that checkout returns to the WordPress checkout. The Store API supports public catalog browsing; cart and checkout behavior can depend on cookie, nonce, CORS, and payment-provider configuration.
 
@@ -23,7 +23,7 @@ cp .env.example .env
 npm run dev
 ```
 
-Build the static site with `npm run build`. The generated files are in `dist/`.
+Build the static site with `npm run build`. The generated files are in `dist/`. The browser loads products from the configured Store API after the container starts; WordPress must allow requests from the storefront origin.
 
 ## Scope
 

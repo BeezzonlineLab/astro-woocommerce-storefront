@@ -1,34 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-
-const apiUrl = import.meta.env.PUBLIC_WOOCOMMERCE_STORE_API_URL;
-let products = [];
-let error = '';
-if (apiUrl) {
-  try {
-    const response = await fetch(`${apiUrl.replace(/\/$/, '')}/products?per_page=12`);
-    if (!response.ok) throw new Error(`Store API returned ${response.status}`);
-    products = await response.json();
-  } catch (cause) {
-    error = cause instanceof Error ? cause.message : 'The product catalog could not be loaded.';
-  }
-}
-const formatPrice = (price) => {
-  const amount = Number(price?.price ?? 0) / (10 ** Number(price?.currency_minor_unit ?? 2));
-  return new Intl.NumberFormat(undefined, { style: 'currency', currency: price?.currency_code || 'USD' }).format(amount);
-};
 ---
 <BaseLayout title="Your Store | Shop">
   <main class="wrap">
     <h1>Discover the collection</h1>
     <p class="intro">A fast storefront connected to your WooCommerce catalog.</p>
-    {!apiUrl ? <p class="empty">Connect your WooCommerce Store API by setting <code>PUBLIC_WOOCOMMERCE_STORE_API_URL</code> in the deployment settings.</p>
-      : error ? <p class="empty">Products are temporarily unavailable. Check the Store API URL and WordPress headless settings. <small>{error}</small></p>
-      : products.length ? <section class="products" aria-label="Products">
-        {products.map((product) => <article class="card">
-          {product.images?.[0]?.src && <img src={product.images[0].src} alt={product.images[0].alt || product.name} loading="lazy" />}
-          <div class="details"><h2>{product.name}</h2><div class="price">{formatPrice(product.prices)}</div></div>
-        </article>)}
-      </section> : <p class="empty">No products are published yet. Add products in WooCommerce to see them here.</p>}
+    <p class="empty" id="catalog-status" role="status" aria-live="polite">Loading products…</p>
+    <section class="products" id="products" aria-label="Products" hidden></section>
   </main>
+  <script src="/storefront.js"></script>
 </BaseLayout>

@@ -33,7 +33,7 @@ const { title = 'Storefront' } = Astro.props;
     </style>
   </head>
   <body>
-    <header><div class="wrap bar"><a class="brand" href="/">Your Store</a><a class="checkout" href={`${import.meta.env.PUBLIC_WORDPRESS_URL || '#'}/checkout/`}>Checkout</a></div></header>
+    <header><div class="wrap bar"><a class="brand" href="/">Your Store</a><a class="checkout" href="#" data-checkout-link aria-disabled="true">Checkout</a></div></header>
     <slot />
     <footer><div class="wrap">Powered by Astro and WooCommerce.</div></footer>
   </body>
