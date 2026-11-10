@@ -13,7 +13,7 @@ Set these deployment environment variables:
 
 The container writes them into a public runtime configuration file when it starts, so you can change backend URLs without rebuilding the Astro site. These values are public. Never put WooCommerce consumer secrets, payment credentials, or private API keys in them.
 
-In WordPress, install and configure WooCommerce, enable the Store API, configure the headless plugin/settings for the storefront origin, and verify that checkout returns to the WordPress checkout. The Store API supports public catalog browsing; cart and checkout behavior can depend on cookie, nonce, CORS, and payment-provider configuration.
+In WordPress, install and configure WooCommerce, enable the Store API, and allow the storefront origin with credentialed requests. Expose the `Nonce` response header and allow the `Nonce` and `Content-Type` request headers. The starter uses the WooCommerce Store API to load products and add simple products to the cart, then sends customers to the WordPress checkout. Verify cart cookies, CORS, and the selected payment provider in your headless configuration before launch.
 
 ## Local development
 
@@ -27,4 +27,4 @@ Build the static site with `npm run build`. The generated files are in `dist/`. 
 
 ## Scope
 
-This starter demonstrates catalog browsing and links customers to the WooCommerce checkout. It does not contain payment credentials or attempt to replace WooCommerce's order, tax, payment, or checkout configuration. Configure those in WordPress Admin and validate the chosen payment provider before launch.
+This starter demonstrates product browsing and adding simple products to the WooCommerce cart before sending customers to checkout. It does not contain payment credentials or replace WooCommerce's order, tax, shipping, or checkout configuration. Configure those in WordPress Admin and validate the chosen payment provider before launch.
