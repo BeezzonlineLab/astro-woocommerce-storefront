@@ -8,5 +8,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p class="empty" id="catalog-status" role="status" aria-live="polite">Loading products…</p>
     <section class="products" id="products" aria-label="Products" hidden></section>
   </main>
-  <script src="/storefront.js"></script>
+  <script is:inline src="/storefront.js"></script>
 </BaseLayout>
