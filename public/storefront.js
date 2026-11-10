@@ -44,11 +44,12 @@ function productCard(product) {
     details.append(price);
   }
 
+  const supportsDirectAdd = product.type === 'simple';
   const addButton = document.createElement('button');
   addButton.className = 'add-to-cart';
   addButton.type = 'button';
-  addButton.textContent = 'Add to cart';
-  addButton.disabled = !cartReady || !product.is_purchasable || !product.is_in_stock;
+  addButton.textContent = supportsDirectAdd ? 'Add to cart' : 'View options in store';
+  addButton.disabled = !supportsDirectAdd || !cartReady || !product.is_purchasable || !product.is_in_stock;
   addButton.addEventListener('click', async () => {
     addButton.disabled = true;
     addButton.textContent = 'Adding…';
@@ -72,10 +73,22 @@ function productCard(product) {
       status.hidden = false;
       addButton.textContent = 'Add to cart';
     } finally {
-      addButton.disabled = !cartReady || !product.is_purchasable || !product.is_in_stock;
+      addButton.disabled = !supportsDirectAdd || !cartReady || !product.is_purchasable || !product.is_in_stock;
     }
   });
   details.append(addButton);
+
+  if (!supportsDirectAdd && product.permalink) {
+    const productUrl = new URL(product.permalink, window.location.href);
+    if (productUrl.protocol === 'https:' || productUrl.protocol === 'http:') {
+      const productLink = document.createElement('a');
+      productLink.href = productUrl.href;
+      productLink.textContent = 'Choose options in WooCommerce';
+      productLink.target = '_blank';
+      productLink.rel = 'noopener noreferrer';
+      details.append(productLink);
+    }
+  }
 
   card.append(details);
   return card;
