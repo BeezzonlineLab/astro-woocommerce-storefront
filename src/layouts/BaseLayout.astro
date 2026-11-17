@@ -30,6 +30,8 @@ const { title = 'Storefront' } = Astro.props;
       .add-to-cart { margin-top: 14px; width: 100%; border: 0; border-radius: 8px; background: #4f46e5; color: white; padding: 10px 12px; font: inherit; font-weight: 650; cursor: pointer; }
       .add-to-cart:hover:not(:disabled) { background: #4338ca; }
       .add-to-cart:disabled { cursor: not-allowed; opacity: .55; }
+      .product-link { display: block; margin-top: 14px; text-align: center; border-radius: 8px; background: #4f46e5; color: white; padding: 10px 12px; font-weight: 650; text-decoration: none; }
+      .product-link:hover { background: #4338ca; }
       .empty { color: #596276; background: white; border: 1px solid #e6e8ef; border-radius: 12px; padding: 22px; }
       footer { padding: 24px 0; border-top: 1px solid #e6e8ef; color: #697386; font-size: .9rem; }
       @media (max-width: 600px) { .wrap { width: min(100% - 28px, 1100px); } main { padding-top: 38px; } }
