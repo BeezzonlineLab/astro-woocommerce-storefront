@@ -108,7 +108,10 @@ async function initializeCart() {
 async function loadCatalog() {
   try {
     const configResponse = await fetch('/runtime-config.json', { cache: 'no-store' });
-    if (!configResponse.ok) throw new Error('Storefront configuration is unavailable.');
+    if (!configResponse.ok) {
+      const detail = await configResponse.json().catch(() => ({}));
+      throw new Error(detail.error || 'Storefront configuration is unavailable.');
+    }
     const config = await configResponse.json();
 
     if (config.wordpressUrl) {

@@ -23,6 +23,20 @@ cp .env.example .env
 npm run dev
 ```
 
+Set both URLs in `.env` to the HTTPS origin of the same WooCommerce store.
+Open `http://localhost:4321` and add that exact origin in WordPress under
+**WooCommerce → Headless Storefront**. The WordPress image must support local
+origins. Local access expires after eight hours; save the origin again to renew
+it. Restart the dev server after changing `.env`.
+
+The browser connects to the selected store directly. With a production store,
+cart and checkout tests can create real orders, reserve stock and send emails.
+Coordinate test orders with the merchant and never use a real payment for a test.
+Remove the localhost origin from WordPress when it is no longer needed: any
+site running on that local origin can use the allowed Store API in any visitor's browser.
+Cookie restrictions vary by browser, so verify that the cart follows the user
+to WordPress checkout before relying on the flow.
+
 Build the static site with `npm run build`. The generated files are in `dist/`. The browser loads products from the configured Store API after the container starts; WordPress must allow requests from the storefront origin.
 
 ## Scope
